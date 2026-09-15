@@ -1,0 +1,100 @@
+/* ==========================================================================
+   VCI Shared Stylesheet — v1
+   https://timartins5.github.io/VCI-assets/vci-shared-v1.css
+
+   Design tokens for VCI internal web apps. Extracted from the CSS already
+   in use across Company Directory, Logins & Links, Pest Vendor Tool,
+   TPO Escalations, TPO Lender Lookup, and Turn Time — not invented.
+
+   Where tools already agreed on a value, that value won. Where they
+   disagreed, the majority won and the choice is noted inline.
+
+   VERSIONING: the version is in the filename. Never edit a published file
+   in place — Apps Script iframes cache unpredictably and a changed file at
+   the same URL will not reliably reach users. Publish vci-shared-v2.css
+   and update consumers.
+
+   USAGE: <link rel="stylesheet" href="https://timartins5.github.io/VCI-assets/vci-shared-v1.css">
+   ========================================================================== */
+
+/* Open Sans, per the VCI brand guide. Most tools already load this via their
+   own <link>; that is fine and slightly faster. This @import exists so a tool
+   that links only this file still gets the correct typeface — Pest Vendor Tool
+   named Open Sans for its whole life while never loading it, rendering in the
+   OS default instead. */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* ---- Brand ----------------------------------------------------------
+     From the VCI brand style guide. Do not approximate these.
+     Note: Pest Vendor Tool carried #ae2643 — one digit high in every
+     channel, clearly retyped rather than copied. #AD2542 is correct. */
+  --vci-red:        #AD2542;
+  --vci-blue:       #1B324A;
+  --vci-dark:       #14252C;
+  --vci-gray:       #F5F5F5;
+  --vci-white:      #FFFFFF;
+
+  /* Hover/active red. Six tools invented six different values for this
+     (#8f1e37, #8e1c33, #b21f3a, #b91b35, #a11b2f, #9D2235) — no consensus
+     existed, so this is a decision, not an extraction. #8F1E37 is roughly
+     #AD2542 darkened 15%, and is already used in TPO Escalations. */
+  --vci-red-hover:  #8F1E37;
+
+  /* ---- Surfaces and text ----------------------------------------------
+     Four of six tools already agreed on each of these. The outliers were
+     TPO Lender Lookup's --text: #1c1c1c and --muted: #6b7280. */
+  --bg:             #F5F5F5;
+  --surface:        #FFFFFF;
+  --surface-2:      #FAFBFC;
+  --text:           #1B324A;
+  --text-2:         #3D4F5C;
+  --muted:          #5E6B76;
+  --border:         #E0E5E8;
+  --border-strong:  #CBD5DC;
+
+  /* ---- Elevation ------------------------------------------------------ */
+  --shadow-sm:      0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:      0 2px 8px rgba(0,0,0,.08);
+  --shadow-lg:      0 8px 24px rgba(0,0,0,.10);
+
+  /* ---- Radius ---------------------------------------------------------
+     From Company Directory. Button radius is deliberately NOT defined here
+     — see the README. The tools genuinely disagree and it needs a decision. */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+
+  /* ---- Spacing --------------------------------------------------------
+     Only TPO Escalations had a scale. Adopted as-is rather than invented. */
+  --sp-xs:          4px;
+  --sp-sm:          8px;
+  --sp-md:          16px;
+  --sp-lg:          24px;
+  --sp-xl:          32px;
+
+  /* ---- Semantic status ------------------------------------------------
+     From TPO Escalations, the only tool with a full semantic set. */
+  --danger:         #C0392B;
+  --warn:           #B7791F;
+  --success:        #2F855A;
+  --info:           #2B6CB0;
+
+  /* ---- Typography ----------------------------------------------------- */
+  --font-body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto,
+               Helvetica, Arial, sans-serif;
+
+  /* ---- Compatibility aliases ------------------------------------------
+     Tools use three different names for the same concepts. These aliases
+     let a tool adopt this file without renaming every variable first.
+     Prefer the canonical names above in new work; these exist so adoption
+     can be incremental rather than a rewrite. */
+  --primary:        var(--vci-red);
+  --primary-hover:  var(--vci-red-hover);
+  --dark:           var(--vci-dark);
+  --blue:           var(--vci-blue);
+  --gray:           var(--vci-gray);
+  --border-soft:    var(--border);
+  --shadow-1:       var(--shadow-sm);
+  --shadow-2:       var(--shadow-md);
+}
