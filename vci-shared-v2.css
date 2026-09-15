@@ -1,0 +1,332 @@
+/* ==========================================================================
+   VCI Shared Stylesheet — v2
+   https://timartins5.github.io/VCI-assets/vci-shared-v2.css
+
+   Design tokens and core components for VCI internal web apps.
+
+   Changes from v1:
+   - Added button component (.vci-btn), toast, and spinner.
+   - Tokens are unchanged from v1. A tool on v1 can move to v2 without
+     any token-related visual change.
+
+   VERSIONING: the version is in the filename. Never edit a published file
+   in place — Apps Script iframes cache unpredictably and a changed file at
+   the same URL will not reliably reach users. Publish v3 and update
+   consumers.
+
+   USAGE: <link rel="stylesheet" href="https://timartins5.github.io/VCI-assets/vci-shared-v2.css">
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* ---- Brand ---------------------------------------------------------- */
+  --vci-red:        #AD2542;
+  --vci-blue:       #1B324A;
+  --vci-dark:       #14252C;
+  --vci-gray:       #F5F5F5;
+  --vci-white:      #FFFFFF;
+  --vci-red-hover:  #8F1E37;
+
+  /* ---- Surfaces and text ---------------------------------------------- */
+  --bg:             #F5F5F5;
+  --surface:        #FFFFFF;
+  --surface-2:      #FAFBFC;
+  --text:           #1B324A;
+  --text-2:         #3D4F5C;
+  --muted:          #5E6B76;
+  --border:         #E0E5E8;
+  --border-strong:  #CBD5DC;
+
+  /* ---- Elevation ------------------------------------------------------ */
+  --shadow-sm:      0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:      0 2px 8px rgba(0,0,0,.08);
+  --shadow-lg:      0 8px 24px rgba(0,0,0,.10);
+
+  /* ---- Radius --------------------------------------------------------- */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+
+  /* ---- Spacing -------------------------------------------------------- */
+  --sp-xs:          4px;
+  --sp-sm:          8px;
+  --sp-md:          16px;
+  --sp-lg:          24px;
+  --sp-xl:          32px;
+
+  /* ---- Semantic status ------------------------------------------------ */
+  --danger:         #C0392B;
+  --warn:           #B7791F;
+  --success:        #2F855A;
+  --info:           #2B6CB0;
+
+  /* ---- Typography ----------------------------------------------------- */
+  --font-body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto,
+               Helvetica, Arial, sans-serif;
+
+  /* ---- Focus ----------------------------------------------------------
+     New in v2. A September 2026 inventory found no focus state on any
+     button in any tool — keyboard users had no visible indicator anywhere.
+     There was nothing to inherit, so this is a decision, not an extraction. */
+  --focus-ring:     0 0 0 3px rgba(173, 37, 66, .35);
+
+  /* ---- Compatibility aliases ------------------------------------------ */
+  --primary:        var(--vci-red);
+  --primary-hover:  var(--vci-red-hover);
+  --dark:           var(--vci-dark);
+  --blue:           var(--vci-blue);
+  --gray:           var(--vci-gray);
+  --border-soft:    var(--border);
+  --shadow-1:       var(--shadow-sm);
+  --shadow-2:       var(--shadow-md);
+}
+
+/* ==========================================================================
+   BUTTONS
+
+   Built from the two-tier pattern that already existed implicitly across
+   the tools, not copied from any single class. The inventory of
+   Company Directory found nine button classes, three of them dead, none
+   extending a shared base — but a consistent intent underneath:
+
+     secondary — white fill, hairline border, blue text, compact
+     primary   — no border, brand red fill, white text, larger, heavier
+
+   Values where the tools disagreed: radius 10px (dominant over 8px),
+   weight 700 primary / 600 secondary (preserves the existing split rather
+   than flattening it), two sizes only.
+
+   Usage:
+     <button class="vci-btn">Cancel</button>
+     <button class="vci-btn vci-btn--primary">Submit</button>
+     <button class="vci-btn vci-btn--danger">Remove</button>
+     <button class="vci-btn vci-btn--lg vci-btn--primary">Submit</button>
+   ========================================================================== */
+
+.vci-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  padding: 7px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  color: var(--vci-blue);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: background .15s ease, border-color .15s ease, filter .15s ease;
+}
+
+.vci-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+.vci-btn:active {
+  transform: translateY(1px);
+}
+
+/* Keyboard focus only — :focus-visible keeps the ring off mouse clicks.
+   The :focus fallback is for older engines; harmless where both apply. */
+.vci-btn:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.vci-btn:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+.vci-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.vci-btn:disabled,
+.vci-btn[aria-disabled="true"] {
+  background: var(--vci-gray);
+  border-color: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
+/* ---- Primary ------------------------------------------------------------
+   Drops the border and fills with brand red, per the pattern the tools
+   already followed. */
+.vci-btn--primary {
+  background: var(--vci-red);
+  border-color: var(--vci-red);
+  color: var(--vci-white);
+  font-weight: 700;
+}
+.vci-btn--primary:hover {
+  background: var(--vci-red-hover);
+  border-color: var(--vci-red-hover);
+}
+.vci-btn--primary:disabled,
+.vci-btn--primary[aria-disabled="true"] {
+  background: var(--vci-gray);
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+/* ---- Danger -------------------------------------------------------------
+   For destructive actions. Distinct from primary so "Remove" and "Submit"
+   are not the same colour — several tools used brand red for both. */
+.vci-btn--danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--vci-white);
+  font-weight: 700;
+}
+.vci-btn--danger:hover {
+  filter: brightness(.93);
+}
+.vci-btn--danger:focus,
+.vci-btn--danger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, .35);
+}
+
+/* ---- Ghost --------------------------------------------------------------
+   Borderless. For tertiary actions and toolbar controls. */
+.vci-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.vci-btn--ghost:hover {
+  background: var(--vci-gray);
+  border-color: transparent;
+}
+
+/* ---- Large --------------------------------------------------------------
+   The second of the two sizes. For main form submits and primary CTAs. */
+.vci-btn--lg {
+  padding: 12px 18px;
+  font-size: 1rem;
+  min-width: 120px;
+  border-radius: var(--radius-md);
+}
+
+/* ---- Full width --------------------------------------------------------- */
+.vci-btn--block {
+  width: 100%;
+}
+
+/* ==========================================================================
+   TOAST
+
+   Absorbed from the Pest Vendor / TPO Lender Lookup implementation, which
+   were byte-identical to each other. Semantic variants and the stacking
+   container come from TPO Escalations, whose version was a superset rather
+   than a conflict.
+
+   Usage:
+     <div class="vci-toast-container">
+       <div class="vci-toast vci-toast--success">Saved</div>
+     </div>
+   ========================================================================== */
+
+.vci-toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-sm);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.vci-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  max-width: 90vw;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--muted);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: vci-toast-in .18s ease-out;
+}
+
+.vci-toast--success { border-left-color: var(--success); }
+.vci-toast--warn    { border-left-color: var(--warn); }
+.vci-toast--danger  { border-left-color: var(--danger); }
+.vci-toast--info    { border-left-color: var(--info); }
+
+@keyframes vci-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   SPINNER
+
+   Two families existed: Pest Vendor / TPO Lender Lookup (neutral ring) and
+   Company Directory / Logins & Links (brand-red accent). Neutral wins as
+   the default — a spinner is a status indicator, not a brand moment, and
+   a red accent reads as an error to some users. Add .vci-spinner--brand
+   where the accent is wanted.
+
+   Usage:
+     <div class="vci-loading">Searching<span class="vci-spinner"></span></div>
+   ========================================================================== */
+
+.vci-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 3px solid var(--border);
+  border-top-color: var(--muted);
+  border-radius: 50%;
+  animation: vci-spin .8s linear infinite;
+}
+
+.vci-spinner--brand {
+  border-top-color: var(--vci-red);
+}
+
+.vci-spinner--lg {
+  width: 28px;
+  height: 28px;
+  border-width: 4px;
+}
+
+.vci-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 50px 20px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+@keyframes vci-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vci-spinner { animation-duration: 2s; }
+  .vci-toast   { animation: none; }
+}
