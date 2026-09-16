@@ -1,6 +1,6 @@
 /* ==========================================================================
    VCI Shared Stylesheet — v3
-   https://timartins5.github.io/VCI-assets/vci-shared-v2.css
+   https://timartins5.github.io/VCI-assets/vci-shared-v3.css
 
    Design tokens and core components for VCI internal web apps.
 
@@ -9,12 +9,17 @@
    - Tokens are unchanged from v1. A tool on v1 can move to v2 without
      any token-related visual change.
 
+   Changes from v2:
+   - Added .vci-btn--sm, a third button size for buttons that sit inline
+     inside table rows and lists. Tokens and all other components are
+     unchanged from v2.
+     
    VERSIONING: the version is in the filename. Never edit a published file
    in place — Apps Script iframes cache unpredictably and a changed file at
    the same URL will not reliably reach users. Publish v3 and update
    consumers.
 
-   USAGE: <link rel="stylesheet" href="https://timartins5.github.io/VCI-assets/vci-shared-v2.css">
+   USAGE: <link rel="stylesheet" href="https://timartins5.github.io/VCI-assets/vci-shared-v3.css">
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
